@@ -58,10 +58,8 @@ def cli(config):
     current_config = parse_config(config)
     # global results for all accounts
     results = {
-        'ec2_classic_running_instances': {},
-        'ec2_classic_reserved_instances': {},
-        'ec2_vpc_running_instances': {},
-        'ec2_vpc_reserved_instances': {},
+        'ec2_running_instances': {},
+        'ec2_reserved_instances': {},
         'elc_running_instances': {},
         'elc_reserved_instances': {},
         'rds_running_instances': {},
@@ -79,12 +77,9 @@ def cli(config):
             results = calculate_elc_ris(session, results)
 
     report = {}
-    report['EC2 Classic'] = report_diffs(
-        results['ec2_classic_running_instances'],
-        results['ec2_classic_reserved_instances'])
-    report['EC2 VPC'] = report_diffs(
-        results['ec2_vpc_running_instances'],
-        results['ec2_vpc_reserved_instances'])
+    report['EC2'] = report_diffs(
+        results['ec2_running_instances'],
+        results['ec2_reserved_instances'])
     report['ElastiCache'] = report_diffs(
         results['elc_running_instances'],
         results['elc_reserved_instances'])

@@ -108,20 +108,20 @@ def calculate_ec2_ris(session, results):
                     if not found_skip_tag:
                         # not in vpc
                         if not instance.get('VpcId'):
-                            results['ec2_classic_running_instances'][(
+                            results['ec2_running_instances'][(
                                 instance_type,
                                 az)] = results[
-                                'ec2_classic_running_instances'].get(
+                                'ec2_running_instances'].get(
                                 (instance_type, az), 0) + 1
                             instance_ids[(instance_type, az)].append(
                                 instance['InstanceId'] if not instance_name
                                 else instance_name)
                         else:
                             # inside vpc
-                            results['ec2_vpc_running_instances'][
+                            results['ec2_running_instances'][
                                 (instance_type,
                                  az)] = results[
-                                'ec2_vpc_running_instances'].get(
+                                'ec2_running_instances'].get(
                                 (instance_type, az), 0) + 1
                             instance_ids[(instance_type, az)].append(
                                 instance['InstanceId'] if not instance_name
@@ -141,14 +141,14 @@ def calculate_ec2_ris(session, results):
         # check if VPC/Classic reserved instance
         if account_is_vpc_only or 'VPC' in reserved_instance.get(
                 'ProductDescription'):
-            results['ec2_vpc_reserved_instances'][(
+            results['ec2_reserved_instances'][(
                 instance_type, az)] = results[
-                'ec2_vpc_reserved_instances'].get(
+                'ec2_reserved_instances'].get(
                 (instance_type, az), 0) + reserved_instance['InstanceCount']
         else:
-            results['ec2_classic_reserved_instances'][(
+            results['ec2_reserved_instances'][(
                 instance_type, az)] = results[
-                'ec2_classic_reserved_instances'].get(
+                'ec2_reserved_instances'].get(
                 (instance_type, az), 0) + reserved_instance['InstanceCount']
 
         reserve_expiry[(instance_type, az)].append(calc_expiry_time(
